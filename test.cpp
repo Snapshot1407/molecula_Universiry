@@ -154,6 +154,6 @@ int main()
     }
     cout << endl;
 
-    cout << "Степень покрытия молекулами поверхности " << n << "х" << m << ": " << Degree_of_surface_coverage/(n*m);
+    cout << "Степень покрытия молекулами поверхности " << n << "х" << m << ": " << Degree_of_surface_coverage/(n*m) << endl;
     return 0;
 }
