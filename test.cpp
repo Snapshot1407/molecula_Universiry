@@ -1,10 +1,12 @@
 #include <iostream>
 #include <random> 
 #include <ctime>
+#include <fstream>
 using namespace std;
 // размеры массива
 int const n = 4;
 int const m = 4;
+ofstream fout("coordinations.xyz"); // создаём объект класса ofstream для записи и связываем его с файлом cppstudio.txt
 
 // счетчик кадров
 unsigned short int count = 0;
@@ -19,7 +21,7 @@ int main()
     uniform_int_distribution<int> distribution_i(0, n-1);
     uniform_int_distribution<int> distribution_j(0, m-1);
     uniform_int_distribution<int> move_id(0, 3);
-    uniform_int_distribution<int> cyl_bessel_j_id(0, 100);
+    uniform_int_distribution<int> cyl_bessel_j_id(1, 100);
 
 // Создание массива N х M, заполненного нулями
     int array[n][m];
@@ -111,18 +113,47 @@ int main()
                             array[i][j] = 0;
                         }
                     }
-            
-        // вывод массива после каждого хода
-        cout << ++count << " - номер кадра" << endl;
-        for (auto i = 0; i < n; i++) 
+        fout << n*m << endl;
+        fout << ++count << endl;
+        for (auto y = 0; y < n; y++)
         {
-            for (auto j = 0; j < m; j++) 
+            for (auto x = 0; x < m; x++)
             {
-                cout << array[i][j] << " ";
+                if (array[y][x] == 1 )
+                {
+                    fout << "C" << " " << x << " " << y << " 0" << endl;
+                }
+                
+                else
+                {
+                    fout << "H" << " " << x << " " << y << " 0" << endl;
+                }
             }
-            cout << endl;
+        
         }
-        cout << endl;
+        
+        
+        
+
+        // вывод массива после каждого хода
+        cout << count << " - номер кадра" << endl;
+        for (auto ii = 0; ii < n; ii++) 
+        {
+            for (auto jj = 0; jj < m; jj++) 
+            {
+                if (array[ii][jj] == 1 )
+                {
+                    cout << "C" << " " << ii << " " << jj << " 0" << endl;
+                }
+                
+                else
+                {
+                    cout << "H" << " " << ii << " " << jj << " 0" << endl;
+                }
+            }
+
+        }
+
         }
     // // вывод массива после 1 МК шага
     // cout << ++count << " - номер кадра" << endl;
@@ -154,6 +185,20 @@ int main()
     }
     cout << endl;
 
+//  запись в файл
+    // for (auto i = 0; i < 3; i++)
+    // {
+    //     for (auto j = 0; j < 3; j++)
+    //     {
+    //         fout << array[i][j] << " "; // запись строки в файл
+    //     }
+        
+    //     fout << endl; // запись строки в файл
+    // }
+    
+    
+
+    fout.close(); // закрываем файл
     cout << "Степень покрытия молекулами поверхности " << n << "х" << m << ": " << Degree_of_surface_coverage/(n*m) << endl;
     return 0;
 }
