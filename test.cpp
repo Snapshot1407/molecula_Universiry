@@ -13,6 +13,12 @@ unsigned short int count = 0;
 
 float thetta = 0;
 
+// bool Metropolis(int intmas[n][m])
+// {
+//     return true;
+//     return false;
+// }
+
 float Thetta(int intmas[n][m])
 {
 
