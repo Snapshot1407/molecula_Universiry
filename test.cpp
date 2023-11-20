@@ -11,7 +11,59 @@ ofstream fout("coordinations.xyz"); // создаём объект класса 
 // счетчик кадров
 unsigned short int count = 0;
 
-float Degree_of_surface_coverage = 0;
+float thetta = 0;
+
+float Thetta(int intmas[n][m])
+{
+
+
+    for (auto i = 0; i < n; i++) 
+    {
+        for (auto j = 0; j < m; j++) 
+        {
+            if (intmas[i][j] == 1)
+            {
+                thetta++;
+            }
+        }
+    }
+    return thetta / (n*m);
+}
+
+void printconsole(int intmas[n][m])
+{
+   for(int i=0; i<n; i++)  
+   {
+     for(int j=0; j<m; j++) 
+       {
+         cout <<  intmas[i][j] <<  " ";
+       }
+    cout << endl;
+   } 
+
+}
+void printfile(int intmas[n][m])
+{
+    fout << n*m << endl;
+        fout << ++count << endl;
+        for (auto y = 0; y < n; y++)
+        {
+            for (auto x = 0; x < m; x++)
+            {
+                if (intmas[y][x] == 1 )
+                {
+                    fout << "1" << " " << x << " " << y << " 0" << endl;
+                }
+                
+                else
+                {
+                    fout << "0" << " " << x << " " << y << " 0" << endl;
+                }
+            }
+        
+        }
+}
+
 
 int main()
 {
@@ -40,7 +92,7 @@ int main()
     //     {0,0,0}
     // };
     
-
+    // исправить в 1 цикл
     for(auto __ = 0; __ < 100; __++)
     {
     // 1 МК шаг
@@ -50,18 +102,19 @@ int main()
                 short int i = distribution_i(rng); 
                 short int j = distribution_j(rng);
 
-                short int move = move_id(rng);
+                
                 short int cyl_bessel_j = cyl_bessel_j_id(rng);
                 // cout << endl << "случайные индексы " << i << " " << j << endl;
 
                 if (cyl_bessel_j % 50 != 0)
                 {
+                    short int move = move_id(rng);
                     // ход наверх, проверка
-                    if (array[(i+n-1)%n][j] == 0 && array[i][j] == 1 && move == 0)
+                    if (array[(i + n - 1) % n][j] == 0 && array[i][j] == 1 && move == 0)
                     {
                         // cout << endl<< "Вывод новой позиции по вертикали " << (i+n-1)%m << endl;
                         array[i][j] = 0;
-                        array[(i+n-1)%n][j] = 1;
+                        array[( i + n - 1 ) % n][j] = 1;
                         // cout << endl << endl;
                         // for(auto k = 0; k < n; k++) cout << array[k][j] << " "; // вывод измененной столбца
                         // cout << endl << "Новый столбец имеет вид: ";
@@ -71,7 +124,7 @@ int main()
                     {
                         // cout << endl<< "Вывод новой позиции по горизонтали " << (j+m+1)%m << " " << endl;
                         array[i][j] = 0;
-                        array[i][(j+m+1)%m] = 1;
+                        array[i][( j + m + 1 ) % m] = 1;
                         // cout << endl << "Новая строка имеет вид: ";
                         // for(auto k = 0; k < m; k++) cout << array[i][k] << " "; // вывод измененной строки
                         // cout << endl << endl;
@@ -113,46 +166,46 @@ int main()
                             array[i][j] = 0;
                         }
                     }
-        fout << n*m << endl;
-        fout << ++count << endl;
-        for (auto y = 0; y < n; y++)
-        {
-            for (auto x = 0; x < m; x++)
-            {
-                if (array[y][x] == 1 )
-                {
-                    fout << "C" << " " << x << " " << y << " 0" << endl;
-                }
+        // fout << n*m << endl;
+        // fout << ++count << endl;
+        // for (auto y = 0; y < n; y++)
+        // {
+        //     for (auto x = 0; x < m; x++)
+        //     {
+        //         if (array[y][x] == 1 )
+        //         {
+        //             fout << "1" << " " << x << " " << y << " 0" << endl;
+        //         }
                 
-                else
-                {
-                    fout << "H" << " " << x << " " << y << " 0" << endl;
-                }
-            }
+        //         else
+        //         {
+        //             fout << "0" << " " << x << " " << y << " 0" << endl;
+        //         }
+        //     }
         
-        }
+        // }
         
         
         
 
-        // вывод массива после каждого хода
-        cout << count << " - номер кадра" << endl;
-        for (auto ii = 0; ii < n; ii++) 
-        {
-            for (auto jj = 0; jj < m; jj++) 
-            {
-                if (array[ii][jj] == 1 )
-                {
-                    cout << "C" << " " << ii << " " << jj << " 0" << endl;
-                }
+        // // вывод массива после каждого хода
+        // cout << count << " - номер кадра" << endl;
+        // for (auto ii = 0; ii < n; ii++) 
+        // {
+        //     for (auto jj = 0; jj < m; jj++) 
+        //     {
+        //         if (array[ii][jj] == 1 )
+        //         {
+        //             cout << "1" << " " << ii << " " << jj << " 0" << endl;
+        //         }
                 
-                else
-                {
-                    cout << "H" << " " << ii << " " << jj << " 0" << endl;
-                }
-            }
+        //         else
+        //         {
+        //             cout << "" << " " << ii << " " << jj << " 0" << endl;
+        //         }
+        //     }
 
-        }
+        // }
 
         }
     // // вывод массива после 1 МК шага
@@ -171,34 +224,14 @@ int main()
     
 
     cout << "конечная поверхность" << endl;
-    for (auto i = 0; i < n; i++) 
-    {
-        for (auto j = 0; j < m; j++) 
-        {
-            if (array[i][j] == 1)
-            {
-                Degree_of_surface_coverage++;
-            }
-            cout << array[i][j] << " ";
-        }
-        cout << endl;
-    }
-    cout << endl;
+    
+    printconsole(array);
 
-//  запись в файл
-    // for (auto i = 0; i < 3; i++)
-    // {
-    //     for (auto j = 0; j < 3; j++)
-    //     {
-    //         fout << array[i][j] << " "; // запись строки в файл
-    //     }
-        
-    //     fout << endl; // запись строки в файл
-    // }
+    printfile(array);
+
     
     
-
+    cout << "Степень покрытия молекулами поверхности " << n << "х" << m << ": " << Thetta(array) << endl;
     fout.close(); // закрываем файл
-    cout << "Степень покрытия молекулами поверхности " << n << "х" << m << ": " << Degree_of_surface_coverage/(n*m) << endl;
     return 0;
 }
