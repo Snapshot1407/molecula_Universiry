@@ -32,7 +32,7 @@ double thetta = 0;
 double starting;
 double finish;
 
-
+//рассчет энергии
 double energy(int intmass[n][m], int i, int j)
 {
     return ε*(intmass[(i + n - 1) % n][j] + intmass[i][(j + m - 1) % m] + intmass[(i + n + 1) % n][j] + intmass[i][(j + m + 1) % m]);
@@ -69,7 +69,7 @@ bool Metropolis(int intmas[n][m], int processing, double μ, int i, int j, doubl
     return false;
 }
 
-
+//расчет тетты для текущей позиции атомов
 double Thetta(int intmas[n][m])
 {
     thetta = 0;
@@ -85,7 +85,7 @@ double Thetta(int intmas[n][m])
     }
     return thetta / (n*m);
 }
-
+//функция для вывода в консоль
 void printconsole(int intmas[n][m])
 {
    for(int i=0; i<n; i++)  
@@ -98,7 +98,7 @@ void printconsole(int intmas[n][m])
    } 
 
 }
-
+//функция для вывода положений атомов
 void printfile(int intmas[n][m])
 {
     rout << n*m << endl;
@@ -120,7 +120,7 @@ void printfile(int intmas[n][m])
         
         }
 }
-
+//функция для вывода в файл средней тетты
 void FileThetta(vector<double> ivec)
 {
     double sum = 0;
@@ -243,13 +243,16 @@ int main()
             } // cyl_bessel_j
             if(__ - 1000000*n*m > 0)
             {   
+                // добавление в вектор для вычисления средней тетты
                  thetts.push_back(Thetta(array));
             } 
 
         }
+        // запись в файл хим.потенциал и тетту среднюю
         fout << μ << endl;
         FileThetta(thetts);
         thetts.clear();
+        // запись в файл, анимация для себя(понимания)
         printfile(array);
 
         
