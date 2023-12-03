@@ -10,6 +10,7 @@ const int n = 3;
 
 
 ofstream fout("thetta.txt"); // создаём объект класса ofstream для записи и связываем его с файлом cppstudio.txt
+ofstream rout("c.txt"); // создаём объект класса ofstream для записи и связываем его с файлом cppstudio.txt
 
 unsigned seed = static_cast<unsigned>(time(nullptr)); // семя от времени
 mt19937 rng(seed); // сам генератор
@@ -98,6 +99,28 @@ void printconsole(int intmas[n][m])
 
 }
 
+void printfile(int intmas[n][m])
+{
+    rout << n*m << endl;
+        rout << ++count << endl;
+        for (auto y = 0; y < n; y++)
+        {
+            for (auto x = 0; x < m; x++)
+            {
+                if (intmas[y][x] == 1 )
+                {
+                    rout << "1" << " " << x << " " << y << " 0" << endl;
+                }
+                
+                else
+                {
+                    rout << "0" << " " << x << " " << y << " 0" << endl;
+                }
+            }
+        
+        }
+}
+
 void FileThetta(vector<double> ivec)
 {
     double sum = 0;
@@ -119,7 +142,7 @@ int main()
 
 
 
-    for(double μ = -100; μ < 100; μ++)
+    for(double μ = -1; μ < 100; μ++)
     {
         // исправить в 1 цикл
         for(auto __ = 0; __ < 2000000*n*m; __++)
@@ -227,15 +250,20 @@ int main()
         fout << μ << endl;
         FileThetta(thetts);
         thetts.clear();
+        printfile(array);
+
         
     }
 
     cout << "конечная поверхность" << endl;
     
     printconsole(array);
-    
+    printfile(array);
     cout << "Степень покрытия молекулами поверхности " << n << "х" << m << ": " << Thetta(array) << endl;
+    
+    
     fout.close(); // закрываем файл
+    rout.close(); // закрываем файл
     return 0;
 }
 
