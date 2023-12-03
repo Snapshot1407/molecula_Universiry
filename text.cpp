@@ -226,6 +226,7 @@ int main()
         }
         fout << μ << endl;
         FileThetta(thetts);
+        thetts.clear();
         
     }
 
