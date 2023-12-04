@@ -5,8 +5,8 @@
 #include <fstream>
 using namespace std;
 
-const int m = 3;
-const int n = 3;
+const int m = 10;
+const int n = 10;
 
 
 ofstream fout("thetta.txt"); // создаём объект класса ofstream для записи и связываем его с файлом cppstudio.txt
@@ -66,7 +66,9 @@ bool Metropolis(int intmas[n][m], int processing, double μ, int i, int j, doubl
             return true;
         }
     }
+    
     return false;
+    
 }
 
 //расчет тетты для текущей позиции атомов
@@ -125,24 +127,32 @@ void FileThetta(vector<double> ivec)
 {
     double sum = 0;
     for(auto i=0;i<ivec.size();++i) sum+=ivec[i];
-    fout << (double)sum/ivec.size() << endl;
+    fout << (double)sum/(ivec.size()-1) << endl;
 }
 
 int main()
 {
+    // Создание массива N х M, заполненного нулями, также его вывод
+    int array[n][m];
+    for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                array[i][j] = 0;
+                cout << array[i][j] << " ";
+            }
+            cout << endl;
+        }
     
-    
-     //пробный массив
+    //  //пробный массив
 
-    int array[3][3] = {
-        {0,0,1},
-        {0,0,0},
-        {1,1,0}
-    };
-
+    // int array[3][3] = {
+    //     {0,0,0},
+    //     {0,0,0},
+    //     {0,0,0}
+    // };
 
 
-    for(double μ = -1; μ < 100; μ++)
+
+    for(double μ = -10; μ < 20; μ++)
     {
         // исправить в 1 цикл
         for(auto __ = 0; __ < 2000000*n*m; __++)
@@ -151,7 +161,6 @@ int main()
             // генерация координат
             short int i = distribution_i(rng); 
             short int j = distribution_j(rng);
-
             short int cyl_bessel_j = cyl_bessel_j_id(rng);
             // // cout << endl << "случайные индексы " << i << " " << j << endl;
             if (cyl_bessel_j % 50 != 0)
@@ -241,27 +250,25 @@ int main()
                     }
                 }
             } // cyl_bessel_j
-            if(__ - 1000000*n*m > 0)
+            if(__ > 1000000*n*m && __ % 10 == 0)
             {   
                 // добавление в вектор для вычисления средней тетты
                  thetts.push_back(Thetta(array));
             } 
 
         }
-        // запись в файл хим.потенциал и тетту среднюю
+        // // запись в файл хим.потенциал и тетту среднюю
         fout << μ << endl;
         FileThetta(thetts);
         thetts.clear();
-        // запись в файл, анимация для себя(понимания)
-        printfile(array);
-
-        
+        // // запись в файл, анимация для себя(понимания)
+        // printfile(array);
     }
 
     cout << "конечная поверхность" << endl;
     
     printconsole(array);
-    printfile(array);
+    // printfile(array);
     cout << "Степень покрытия молекулами поверхности " << n << "х" << m << ": " << Thetta(array) << endl;
     
     
